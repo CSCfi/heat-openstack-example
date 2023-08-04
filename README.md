@@ -3,7 +3,7 @@ Ansible heat OpenStack deployment
 
 ## Overview
 
-This repository contains Ansible playbooks and Heat OpenStack template for provisioning a Virtual Machine and deploying an Nginx appliocation as an example on cPouta Openstack enviroonmnet.
+This repository contains Ansible playbooks and Heat OpenStack template for provisioning a Virtual Machine and deploying an Nginx application as an example on cPouta Openstack environment.
 
 ## Project structure:-
 
