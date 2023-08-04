@@ -26,6 +26,9 @@
 
     - name: Add host to the dynamic inventory
       add_host:
-        name: "{{ heat_stack.stack.outputs | selectattr('output_key', 'equalto', 'floating_ip') | map(attribute='output_value') | first }}"
+        name: "{{ item.name }}"
+        ansible_host: "{{ heat_stack.stack.outputs | selectattr('output_key', 'equalto', 'floating_ip') | map(attribute='output_value') | first }}"
         groups: "nginx_vm"
         ansible_ssh_user: "ubuntu"
+      with_items:
+        - "{{ heat_stack.stack }}"
