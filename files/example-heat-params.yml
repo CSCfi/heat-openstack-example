@@ -1,0 +1,9 @@
+# This is an example parameter file for Heat. The minimum set of deployment
+# specific parameters to set for Heat are documented here.
+parameter_defaults:
+  ssh_key_name:
+  vm_flavor: 
+  vm_image:   
+  vm_network: 
+  allow_ssh_cidr:
+  floating_ip_pool: 

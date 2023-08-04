@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    stack_name: "{{ lookup('env', 'STACK_NAME') }}"
+  tasks:
+    - name: Delete the Heat stack for the NGINX VM
+      os_stack:
+        name: "{{ stack_name }}"
+        state: absent
+        timeout: 300

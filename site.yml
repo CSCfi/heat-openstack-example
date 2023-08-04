@@ -1,0 +1,3 @@
+---
+- import_playbook: playbooks/build-heat-stack.yml
+- import_playbook: playbooks/deploy_nginx_vm.yml

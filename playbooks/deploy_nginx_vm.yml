@@ -1,0 +1,31 @@
+---
+- hosts: nginx_vm
+  gather_facts: yes
+  user: ubuntu
+  become: yes
+  vars:
+    index_html_path: "../files/html/index.html"
+
+  tasks:
+    - name: Update the repository cache and install nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: Ensure nginx is started and enabled to start at boot
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: yes
+
+
+    - name: Copy index.html to nginx root directory
+      copy:
+        src: "{{ index_html_path }}"
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
+        mode: '0644'
+
+    

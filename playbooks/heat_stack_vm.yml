@@ -1,0 +1,65 @@
+---
+heat_template_version: 2015-10-15
+
+description: Create a single VM with NGINX
+
+parameters:
+  ssh_key_name:
+    description: SSH key name
+    type: string
+  vm_flavor:
+    description: Flavor for the VM
+    type: string
+  vm_image:
+    description: Image for the VM
+    type: string
+  vm_network:
+    description: Network for the VM
+    type: string
+  allow_ssh_cidr:
+    description: CIDR for SSH
+    type: string
+  floating_ip_pool:
+    type: string
+    description: The pool from which floating IPs should be reserved
+
+resources:
+  secgroup:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      rules:
+        - protocol: tcp
+          remote_ip_prefix: { get_param: allow_ssh_cidr }
+          port_range_min: 22
+          port_range_max: 22
+        - protocol: tcp
+          port_range_min: 80
+          port_range_max: 80
+
+  server:
+    type: OS::Nova::Server
+    properties:
+      name: vm_server
+      flavor: { get_param: vm_flavor }
+      image: { get_param: vm_image }
+      key_name: { get_param: ssh_key_name }
+      networks:
+        - network: { get_param: vm_network }
+      security_groups:
+        - { get_resource: secgroup }
+
+  my_floating_ip:
+    type: OS::Nova::FloatingIP
+    properties:
+      pool: { get_param: floating_ip_pool }
+
+  my_floating_ip_association:
+    type: OS::Nova::FloatingIPAssociation
+    properties:
+      floating_ip: { get_resource: my_floating_ip }
+      server_id: { get_resource: server }
+
+outputs:
+  floating_ip:
+    description: The Floating IP address of the instance
+    value: { get_attr: [my_floating_ip, ip] }
