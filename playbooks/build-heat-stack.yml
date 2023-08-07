@@ -8,7 +8,7 @@
     - name: Build a Heat stack for the NGINX VM
       register: heat_stack
       os_stack:
-        name: "nginx-vm-stack"
+        name: "{{ stack_name }}"
         state: present
         template: "heat_stack_vm.yml"
         environment: "{{ heat_environment_file }}"
@@ -30,7 +30,7 @@
       add_host:
         name: "{{ item.name }}"
         ansible_host: "{{ item.outputs[0].output_value }}"
-        groups: "nginx_vm"
+        groups: "{{ item.name }}-group"
         ansible_ssh_user: "{{ vm_user_account }}"
       with_items:
         - "{{ heat_stack.stack }}"
