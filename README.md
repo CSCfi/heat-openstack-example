@@ -75,17 +75,17 @@ Then edit the file and fill in the parameters according to your needs. Here is t
 - floating_ip_pool: The name of the floatin IP pool list. Usually `public`.
 
 ### Deploying the application
-
+A variable "stack_name" must be set. You can do it so:
 ```
 cd heat-openstack-example
-ansible-playbook site.yml
+ansible-playbook site.yml -e stack_name="nginx-vm-stack"
 ```
 
 ## Destroying the application
+Same as deploying the application, don't forget to set the variable "stack_name"
 ```
 cd heat-openstack-example
-export STACK_NAME=nginx-vm-stack
-ansible-playbook destroy-nginx-vm.yml
+ansible-playbook destroy-nginx-vm.yml -e stack_name="nginx-vm-stack"
 ```
 
 
