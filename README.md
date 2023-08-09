@@ -99,5 +99,5 @@ ansible-playbook destroy-nginx-vm.yml -e stack_name="nginx-vm-stack"
  openstack stack show nginx-vm-stack
  openstack stack delete nginx-vm-stack
 ```
-https://docs.openstack.org/heat/latest/template_guide/
+https://docs.openstack.org/heat/latest/template_guide/  
 http://hardysteven.blogspot.com/2014/09/using-heat-resourcegroup-resources.html
