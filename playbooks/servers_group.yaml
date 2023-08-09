@@ -1,0 +1,18 @@
+heat_template_version: queens
+
+parameters:
+  count:
+    description: Number of resources
+    type: string
+
+resources:
+  my_group:
+    type: OS::Heat::ResourceGroup
+    properties:
+      count: { get_param: count }
+      resource_def:
+        type: heat_stack_vm.yaml
+
+outputs:
+  print_out:
+    value: { get_attr: [my_group, floating_ip] }
