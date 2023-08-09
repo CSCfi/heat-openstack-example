@@ -7,3 +7,4 @@ parameter_defaults:
   vm_network: 
   allow_ssh_cidr:
   floating_ip_pool: 
+  count: 
