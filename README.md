@@ -72,7 +72,8 @@ Then edit the file and fill in the parameters according to your needs. Here is t
 - vm_image: The name of the image of the instance. Use the command `openstack image list` for a complete list.
 - vm_network: The name of the network of the instance. Usually it's the name of the project. Use `openstack network list` for a complete list.
 - allow_ssh_cidr: If you want to access from anywhere, use `0.0.0.0/0` (not recommended). Specify a restrict network.
-- floating_ip_pool: The name of the floatin IP pool list. Usually `public`.
+- floating_ip_pool: The name of the floating IP pool list. Usually `public`.
+- count: The number of instances to deploy
 
 ### Deploying the application
 A variable "stack_name" must be set. You can do it so:
