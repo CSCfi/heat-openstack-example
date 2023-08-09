@@ -18,24 +18,20 @@
       debug:
         var: heat_stack
 
-    - name: pause
-      pause:
-        minutes: 2
-
     - name: Wait for the VM to become accessible
       wait_for:
-        host: "{{ item.output_value }}"
+        host: "{{ item }}"
         port: 22
         state: started
         timeout: 300
-      loop:
-        - "{{ heat_stack.stack.outputs[0] }}"
+      with_items:
+        - "{{ heat_stack.stack.outputs[0].output_value }}"
 
     - name: Add host to the dynamic inventory
       add_host:
-        name: "{{ item.name }}"
-        ansible_host: "{{ item.outputs[0].output_value }}"
-        groups: "{{ item.name }}-group"
+        name: "{{ item }}"
+        groups: "os_instances_group"
         ansible_ssh_user: "{{ vm_user_account }}"
       with_items:
-        - "{{ heat_stack.stack }}"
+        - "{{ heat_stack.stack.outputs[0].output_value }}"
+        
