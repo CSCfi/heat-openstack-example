@@ -75,7 +75,7 @@ Then edit the file and fill in the parameters according to your needs. Here is t
 - floating_ip_pool: The name of the floating IP pool list. Usually `public`.
 - count: The number of instances to deploy
 
-[!NOTE]
+**Note**  
 In this example, the instance(s) will be named "test-stack-%index%" (where %index% starts from 0). If you want another name, rename the property `vm_name` in the file `servers_group.yaml`
 
 ### Deploying the application
