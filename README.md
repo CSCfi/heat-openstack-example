@@ -66,20 +66,26 @@ $ cd heat-openstack-example
 $ cp files/example-heat-params.yml playbooks/heat_params.yml
 ```
 
-Then edit the file and fill in the parameters according to your needs.
+Then edit the file and fill in the parameters according to your needs. Here is the explanation of each fields:
+- ssh_key_name: The name of your SSH key pair used to connect to the instance.
+- vm_flavor: The name of the flavor of the instance. Use the command `openstack flavor list` for a complete list.
+- vm_image: The name of the image of the instance. Use the command `openstack image list` for a complete list.
+- vm_network: The name of the network of the instance. Usually it's the name of the project. Use `openstack network list` for a complete list.
+- allow_ssh_cidr: If you want to access from anywhere, use `0.0.0.0/0` (not recommended). Specify a restrict network.
+- floating_ip_pool: The name of the floatin IP pool list. Usually `public`.
 
 ### Deploying the application
-
+A variable "stack_name" must be set. You can do it so:
 ```
 cd heat-openstack-example
-ansible-playbook site.yml
+ansible-playbook site.yml -e stack_name="nginx-vm-stack"
 ```
 
 ## Destroying the application
+Same as deploying the application, don't forget to set the variable "stack_name"
 ```
 cd heat-openstack-example
-export STACK_NAME=nginx-vm-stack
-ansible-playbook destroy-nginx-vm.yml
+ansible-playbook destroy-nginx-vm.yml -e stack_name="nginx-vm-stack"
 ```
 
 

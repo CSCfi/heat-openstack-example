@@ -1,2 +1,4 @@
 ---
 vm_user_account: "ubuntu"
+index_html_path: "../files/html/index.html"
+stack_name: "set me"

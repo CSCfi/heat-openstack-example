@@ -1,6 +1,6 @@
 ---
 - hosts: localhost
-  gather_facts: no
+  gather_facts: false
   vars:
     heat_environment_file: "heat_params.yml"
 
@@ -8,7 +8,7 @@
     - name: Build a Heat stack for the NGINX VM
       register: heat_stack
       os_stack:
-        name: "nginx-vm-stack"
+        name: "{{ stack_name }}"
         state: present
         template: "heat_stack_vm.yml"
         environment: "{{ heat_environment_file }}"
@@ -19,16 +19,18 @@
 
     - name: Wait for the VM to become accessible
       wait_for:
-        host: "{{ heat_stack.stack.outputs | selectattr('output_key', 'equalto', 'floating_ip') | map(attribute='output_value') | first }}"
+        host: "{{ item.output_value }}"
         port: 22
         state: started
         timeout: 300
+      with_items:
+        - "{{ heat_stack.stack.outputs[0] }}"
 
     - name: Add host to the dynamic inventory
       add_host:
         name: "{{ item.name }}"
-        ansible_host: "{{ heat_stack.stack.outputs | selectattr('output_key', 'equalto', 'floating_ip') | map(attribute='output_value') | first }}"
-        groups: "nginx_vm"
-        ansible_ssh_user: "ubuntu"
+        ansible_host: "{{ item.outputs[0].output_value }}"
+        groups: "{{ item.name }}-group"
+        ansible_ssh_user: "{{ vm_user_account }}"
       with_items:
         - "{{ heat_stack.stack }}"
