@@ -21,7 +21,8 @@ This repository contains Ansible playbooks and Heat OpenStack template for provi
 │   ├── group_vars
 │   │   └── all.yml
 │   ├── heat_params.yml
-│   └── heat_stack_vm.yml
+│   ├── heat_stack_vm.yml
+│   └── servers_group.yaml
 ├── README.md
 └── site.yml
 
