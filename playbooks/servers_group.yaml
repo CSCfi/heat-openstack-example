@@ -1,0 +1,22 @@
+heat_template_version: queens
+
+description: Resource Group to deploy one or several instance(s)
+
+parameters:
+  count:
+    description: Number of resources
+    type: string
+
+resources:
+  instances_group:
+    type: OS::Heat::ResourceGroup
+    properties:
+      count: { get_param: count }
+      resource_def:
+        type: heat_stack_vm.yaml
+        properties:
+          vm_name: test-stack-%index%
+
+outputs:
+  print_out:
+    value: { get_attr: [instances_group, floating_ip] }

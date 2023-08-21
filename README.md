@@ -21,7 +21,8 @@ This repository contains Ansible playbooks and Heat OpenStack template for provi
 │   ├── group_vars
 │   │   └── all.yml
 │   ├── heat_params.yml
-│   └── heat_stack_vm.yml
+│   ├── heat_stack_vm.yml
+│   └── servers_group.yaml
 ├── README.md
 └── site.yml
 
@@ -72,7 +73,11 @@ Then edit the file and fill in the parameters according to your needs. Here is t
 - vm_image: The name of the image of the instance. Use the command `openstack image list` for a complete list.
 - vm_network: The name of the network of the instance. Usually it's the name of the project. Use `openstack network list` for a complete list.
 - allow_ssh_cidr: If you want to access from anywhere, use `0.0.0.0/0` (not recommended). Specify a restrict network.
-- floating_ip_pool: The name of the floatin IP pool list. Usually `public`.
+- floating_ip_pool: The name of the floating IP pool list. Usually `public`.
+- count: The number of instances to deploy
+
+**Note**  
+In this example, the instance(s) will be named "test-stack-%index%" (where %index% starts from 0). If you want another name, rename the property `vm_name` in the file `servers_group.yaml`
 
 ### Deploying the application
 A variable "stack_name" must be set. You can do it so:
@@ -98,3 +103,5 @@ ansible-playbook destroy-nginx-vm.yml -e stack_name="nginx-vm-stack"
  openstack stack show nginx-vm-stack
  openstack stack delete nginx-vm-stack
 ```
+https://docs.openstack.org/heat/latest/template_guide/  
+http://hardysteven.blogspot.com/2014/09/using-heat-resourcegroup-resources.html

@@ -1,11 +1,13 @@
----
-heat_template_version: 2015-10-15
+heat_template_version: queens
 
-description: Create a single VM with NGINX
+description: Create VM with NGINX
 
 parameters:
   ssh_key_name:
     description: SSH key name
+    type: string
+  vm_name:
+    description: Name for the VM
     type: string
   vm_flavor:
     description: Flavor for the VM
@@ -20,8 +22,8 @@ parameters:
     description: CIDR for SSH
     type: string
   floating_ip_pool:
-    type: string
     description: The pool from which floating IPs should be reserved
+    type: string
 
 resources:
   secgroup:
@@ -39,7 +41,7 @@ resources:
   server:
     type: OS::Nova::Server
     properties:
-      name: vm_server
+      name: { get_param: vm_name }
       flavor: { get_param: vm_flavor }
       image: { get_param: vm_image }
       key_name: { get_param: ssh_key_name }
@@ -61,5 +63,5 @@ resources:
 
 outputs:
   floating_ip:
-    description: The Floating IP address of the instance
+    description: The Floating IP address of the instance(s)
     value: { get_attr: [my_floating_ip, ip] }
